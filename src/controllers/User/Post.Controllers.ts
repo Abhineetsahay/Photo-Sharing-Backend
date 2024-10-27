@@ -23,7 +23,7 @@ class UploadPostControllers {
   async uploadPost(req: CustomRequest, res: Response) {
     try {
       const file = req.file?.path;
-      const { caption } = req.body;
+      const { caption } = req.query;
       const user = req.user;
 
       const userId = typeof user === 'string' ? user : (user as JwtPayload)?.id;
