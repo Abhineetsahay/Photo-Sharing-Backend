@@ -1,0 +1,17 @@
+// .eslintrc.json
+{
+    "parser": "@typescript-eslint/parser",
+    "extends": [
+      "eslint:recommended",
+      "plugin:@typescript-eslint/recommended",
+      "plugin:prettier/recommended"
+    ],
+    "env": {
+      "node": true,
+      "es6": true
+    },
+    "rules": {
+      // Customize your rules
+    }
+  }
+  
