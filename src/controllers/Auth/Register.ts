@@ -37,7 +37,7 @@ export const Register = async (req: FileRequest, res: Response) => {
         .status(400)
         .json({ message: 'User with this email or email already exists' }); 
     }
-
+     
     if (!req.file) {
       return res.status(400).json({ message: 'No file uploaded' });
     }
@@ -58,17 +58,14 @@ export const Register = async (req: FileRequest, res: Response) => {
     const token = generateJWTToken(newUser);
 
     res.cookie('accessToken', token.accessToken, {
-      httpOnly: true,
       sameSite: 'strict',
       secure: true,
     });
 
     res.cookie('refreshToken', token.refreshToken, {
-      httpOnly: true,
       sameSite: 'strict',
       secure: true,
     });
-
     await newUser.save();
 
     res.status(201).json({

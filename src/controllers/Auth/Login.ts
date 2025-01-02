@@ -10,8 +10,10 @@ export const Login = async (req: Request, res: Response) => {
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
-    const { email, password } = req.body;
-    const findUser = await User.findOne({ email });
+    const {username, email, password } = req.body;
+    const findUser = await User.findOne({
+      $or: [{ username }, { email }],
+    });
     if (!findUser) {
       return res.status(404).json({
         success: false,
@@ -21,18 +23,16 @@ export const Login = async (req: Request, res: Response) => {
     if (!(await bcrypt.compare(password, findUser.password))) {
       return res.status(403).json({
         success: false,
-        message: 'Incorrect password',
+        message: 'Incorrect password', 
       });
     }
     const token = generateJWTToken(findUser);
     res.cookie('accessToken', token.accessToken, {
-      httpOnly: true,
       sameSite: 'strict',
       secure:true
     });
 
     res.cookie('refreshToken', token.refreshToken, {
-      httpOnly: true,
       sameSite: 'strict',
       secure:true
     });

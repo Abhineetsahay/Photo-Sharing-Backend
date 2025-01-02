@@ -26,3 +26,4 @@ export const Logout = (req: Request, res: Response) => {
         });
     }
 };
+
