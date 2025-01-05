@@ -6,7 +6,6 @@ dotenv.config();
 
 export interface CustomRequest extends Request {
   user?: string | JwtPayload;
-  cookie?:string |JwtPayload;
 }
 
 export const authenticateToken = async (req: CustomRequest, res: Response, next: NextFunction) => {
@@ -19,11 +18,10 @@ export const authenticateToken = async (req: CustomRequest, res: Response, next:
     }); 
   }
 
-  const token = header.split(" ")[1];
+  const token = header.split(" ")[1]; 
   
-  // console.log(req.headers.cookie?.split(' ')[2].split('=')[1]); access token
-  // console.log(req.headers.cookie?.split(' ')[3].split('=')[1]); refresh token
-  const refreshToken = req.headers.cookie?.split(' ')[3].split('=')[1];
+  const refreshToken = req.cookies?.refreshToken;
+  
   if (!process.env.JWT_ACCESS_SECRET || !process.env.JWT_REFRESH_SECRET) {
     return res.status(500).json({
       success: false,
